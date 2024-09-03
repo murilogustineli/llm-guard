@@ -10,7 +10,7 @@ Install the pre-commit hooks for formatting code:
 pre-commit install
 ```
 
-Install packages to the .venv:
+Install packages to the `.venv`:
 
 ```bash
 sudo pip install -r requirements.txt
