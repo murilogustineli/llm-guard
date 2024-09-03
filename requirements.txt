@@ -1,0 +1,11 @@
+numpy
+pandas
+matplotlib
+notebook
+ipykernel
+openpyxl
+
+# developer tools
+jupyterlab
+black
+pre-commit
