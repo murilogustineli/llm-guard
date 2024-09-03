@@ -1,7 +1,10 @@
-numpy
-pandas
-matplotlib
-notebook
+numpy==2.1.1
+pandas==2.2.2
+matplotlib==3.9.2
+torch==2.4.0
+transformers==4.44.2
+huggingface_hub==0.24.6
+notebook==7.2.2
 ipykernel
 openpyxl
 
