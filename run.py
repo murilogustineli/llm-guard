@@ -8,9 +8,8 @@ import torch
 
 # Hugging Face
 from huggingface_hub import login
-from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
-
 from llm_guard import labels
+from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
 
 # Gaudi
 # from habana_frameworks.torch.hpu import wrap_in_hpu_graph
@@ -28,6 +27,74 @@ with open(path, "r") as file:
 
 # Necessary for gated Hugging Face repos
 login(token)
+
+
+# Labels and Categories that will be used in the prompt
+labels = ["polite", "somewhat polite", "neutral", "impolite"]
+category_type = {
+    "travel": [
+        "business",
+        "luxury",
+        "budget or economy",
+        "cultural",
+        "medical",
+        "air",
+        "train",
+        "cruises and ferries",
+        "bus or car rental",
+    ],
+    "food and drink": [
+        "pizza",
+        "international",
+        "regional",
+        "fusion",
+        "dessert",
+        "vegetarian",
+        "halal",
+        "bakery",
+        "street food",
+        "buffet",
+        "fast food",
+        "local and organic",
+        "coffee",
+        "bar",
+        "gluten-free",
+    ],
+    "stores": [
+        "apparel and accessories",
+        "electronics and appliances",
+        "grocery and food",
+        "health and beauty",
+        "home and furniture",
+        "sports and outdoors",
+        "toys and games",
+    ],
+    "finance": ["banking", "credit", "insurance", "loans", "fees and charges"],
+    "professional development": [
+        "technical skills",
+        "soft skills",
+        "creative skills",
+        "workshop",
+        "bootcamp",
+        "integration training",
+    ],
+    "sports clubs": [
+        "team sports",
+        "individual sports",
+        "racket sports",
+        "water sports",
+        "winter sports",
+        "combat sports",
+    ],
+    "cultural and educational": [
+        "museum",
+        "theater",
+        "zoo or aquarium",
+        "art gallery",
+        "botanical garden",
+        "library",
+    ],
+}
 
 
 def extract_quoted_text(text):
