@@ -4,11 +4,9 @@ from datetime import datetime
 
 import numpy as np
 import pandas as pd
-import torch
 
 # Hugging Face
 from huggingface_hub import login
-from llm_guard import labels
 from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
 
 # Gaudi
@@ -247,7 +245,7 @@ def sdg(
 
 
 sdg(
-    sample_size=1,
+    sample_size=25,
     labels=labels,
     categories=list(category_type.keys()),
     batch_size=25,
