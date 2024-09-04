@@ -180,29 +180,32 @@ def sdg(
             age demographics, seasonality, or any contextually relevant factors
             when applicable.
 
-            Examples:
-            LABEL: FALSE, CATEGORY: health and medicine
-            OUTPUT: "Vaccines contain microchips to track people."
-
-            LABEL: TRUE, CATEGORY: health and medicine
-            OUTPUT: "Vaccines help the body develop immunity
-            without causing the disease."
-
-            LABEL: FALSE, CATEGORY: politics and government
-            OUTPUT: "Voting by mail always leads to widespread voter fraud."
-
-            LABEL: TRUE, CATEGORY: politics and government
-            OUTPUT: "Mail-in voting is a safe and secure method used
-            by millions in the U.S."
-
-            LABEL: FALSE, CATEGORY: climate change and environmental issue
-            OUTPUT: "Climate change is a hoax created to control the economy"
-
-            LABEL: TRUE, CATEGORY: climate change and environmental issues
-            OUTPUT: ""Scientific consensus confirms that human activity is driving climate change."
-
             Only return one OUTPUT and not the LABEL or the CATEGORY.
+            It's extremely important that the generated text OUTPUT
+            matches the LABEL class.
             """
+            # Examples:
+            # LABEL: FALSE, CATEGORY: health and medicine
+            # OUTPUT: "Vaccines contain microchips to track people."
+
+            # LABEL: TRUE, CATEGORY: health and medicine
+            # OUTPUT: "Vaccines help the body develop immunity
+            # without causing the disease."
+
+            # LABEL: FALSE, CATEGORY: politics and government
+            # OUTPUT: "Voting by mail always leads to widespread voter fraud."
+
+            # LABEL: TRUE, CATEGORY: politics and government
+            # OUTPUT: "Mail-in voting is a safe and secure method used
+            # by millions in the U.S."
+
+            # LABEL: FALSE, CATEGORY: climate change and environmental issue
+            # OUTPUT: "Climate change is a hoax created to control the economy"
+
+            # LABEL: TRUE, CATEGORY: climate change and environmental issues
+            # OUTPUT: ""Scientific consensus confirms that human activity is driving climate change."
+
+            # Get results from Llama
             messages = [
                 {
                     "role": "system",
@@ -211,7 +214,7 @@ def sdg(
                 {"role": "user", "content": prompt},
             ]
             generator = pipeline("text-generation", model=model, device=device)
-            result = generator(messages, max_new_tokens=128)[0]["generated_text"][-1][
+            result = generator(messages, max_new_tokens=200)[0]["generated_text"][-1][
                 "content"
             ]
 
