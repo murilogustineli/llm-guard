@@ -180,7 +180,6 @@ def sdg(
             age demographics, seasonality, or any contextually relevant factors
             when applicable.
 
-
             Examples:
             LABEL: FALSE, CATEGORY: health and medicine
             OUTPUT: "Vaccines contain microchips to track people."
