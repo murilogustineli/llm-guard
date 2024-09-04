@@ -28,7 +28,7 @@ login(token)
 
 
 # Labels and Categories that will be used in the prompt
-labels = ["polite", "somewhat polite", "neutral", "impolite"]
+labels = ["false", "partially true", "mostly true", "true"]
 category_type = {
     "health and medicine": [
         "COVID-19 (virus origins, treatments, lockdowns)",
@@ -166,38 +166,48 @@ def sdg(
         batch_random_categories = np.random.choice(categories, batch_size, replace=True)
 
         for i in range(start, end):
-            prompt = f"""I am creating synthetic OUTPUT to fine-tune
-            my BERT model. The use-case is customer service chatbots.
-            You should generate only one OUTPUT for the classification
-            LABEL: {batch_random_labels[i - start]} in CATEGORY:
-            {batch_random_categories[i - start]} and TYPE
-            {diversify(batch_random_categories[i - start])}. Feel free
-            to diversify the output further according to the age and
-            seasonality when applicable. Avoid phrases such as "The
-            issue with", "Are you kidding me", and "Hey, I" as much as possible.
+            prompt = f"""I am generating synthetic OUTPUT to fine-tune
+            my BERT model for detecting misinformation.
+            The goal is to classify text based on its accuracy and
+            prevent the spread of false information.
+            Your task is to generate one OUTPUT for the classification:
 
-            Examples.
-            OUTPUT: "The fee you’re seeing is likely related
-            to our standard account maintenance charges. I can provide
-            more details if needed."
+            LABEL: {batch_random_labels[i - start]}
+            CATEGORY: {batch_random_categories[i - start]}
+            TYPE: {diversify(batch_random_categories[i - start])}
 
-            OUTPUT: "You can return it, but only if you have the
-            receipt and it’s within the return window."
+            Feel free to add diversity to the OUTPUT, taking into account
+            age demographics, seasonality, or any contextually relevant factors
+            when applicable.
 
-            OUTPUT: "It's not our fault your baggage didn't make it.
-            What do you expect us to do about it now?"
 
-            OUTPUT: "I apologize for the trouble you’ve had with the
-            heater. We can certainly look into a return or exchange.
-            Please bring in your receipt, and we’ll take care of it
-            for you."
+            Examples:
+            LABEL: FALSE, CATEGORY: health and medicine
+            OUTPUT: "Vaccines contain microchips to track people."
+
+            LABEL: TRUE, CATEGORY: health and medicine
+            OUTPUT: "Vaccines help the body develop immunity
+            without causing the disease."
+
+            LABEL: FALSE, CATEGORY: politics and government
+            OUTPUT: "Voting by mail always leads to widespread voter fraud."
+
+            LABEL: TRUE, CATEGORY: politics and government
+            OUTPUT: "Mail-in voting is a safe and secure method used
+            by millions in the U.S."
+
+            LABEL: FALSE, CATEGORY: climate change and environmental issue
+            OUTPUT: "Climate change is a hoax created to control the economy"
+
+            LABEL: TRUE, CATEGORY: climate change and environmental issues
+            OUTPUT: ""Scientific consensus confirms that human activity is driving climate change."
 
             Only return one OUTPUT and not the LABEL or the CATEGORY.
             """
             messages = [
                 {
                     "role": "system",
-                    "content": f"You are a helpful assistant designed to generate synthetic customer service data with labels {labels} in categories {list(category_type.keys())}.",
+                    "content": f"You are a helpful assistant designed to generate synthetic data with labels {labels} in categories {list(category_type.keys())}.",
                 },
                 {"role": "user", "content": prompt},
             ]
