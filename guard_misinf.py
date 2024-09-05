@@ -167,43 +167,47 @@ def sdg(
 
         for i in range(start, end):
             prompt = f"""I am generating synthetic OUTPUT to fine-tune
-            my BERT model for detecting misinformation.
-            The goal is to classify text based on its accuracy and
-            prevent the spread of false information.
+            my BERT model for detecting misinformation. The goal is to classify
+            text based on its accuracy and prevent the spread of false information.
+
             Your task is to generate one OUTPUT for the classification:
 
             LABEL: {batch_random_labels[i - start]}
             CATEGORY: {batch_random_categories[i - start]}
             TYPE: {diversify(batch_random_categories[i - start])}
 
-            Feel free to add diversity to the OUTPUT, taking into account
-            age demographics, seasonality, or any contextually relevant factors
-            when applicable.
+            To ensure the generated OUTPUT matches the LABEL, follow this step-by-step reasoning:
+            1. Consider the CATEGORY and TYPE to understand the topic.
+            2. Think about common statements or beliefs that align with the LABEL.
+            3. Reflect on whether the statement should be factual, partially true, mostly true, or false.
+            4. Generate an OUTPUT that aligns with the assigned LABEL and category.
 
-            Only return one OUTPUT and not the LABEL or the CATEGORY.
-            It's extremely important that the generated text OUTPUT
-            matches the LABEL class.
+            Feel free to diversify the OUTPUT based on factors like age demographics, seasonality, or contextually relevant elements when applicable.
+
+            ### Chain-of-Thought Examples:
+
+            - LABEL: false, CATEGORY: health and medicine
+            - Reasoning: People often spread conspiracy theories about vaccines.
+            - OUTPUT: "Vaccines contain microchips to track people."
+
+            - LABEL: true, CATEGORY: health and medicine
+            - Reasoning: Scientific studies confirm the effectiveness of vaccines.
+            - OUTPUT: "Vaccines help the body develop immunity without causing the disease."
+
+            - LABEL: partially true, CATEGORY: politics and government
+            - Reasoning: Some concerns about mail-in voting have been raised, but most are unfounded.
+            - OUTPUT: "While mail-in voting can have occasional issues, it's generally safe and secure for the vast majority of voters."
+
+            - LABEL: false, CATEGORY: climate change and environmental issues
+            - Reasoning: Climate change denial is common among certain groups.
+            - OUTPUT: "Climate change is a hoax created to control the economy."
+
+            - LABEL: mostly true, CATEGORY: climate change and environmental issues
+            - Reasoning: While scientific consensus supports human-driven climate change, some debates exist about the timeline of impacts.
+            - OUTPUT: "The majority of climate scientists agree that human activity is causing global warming, but there are still discussions about the exact rate of change."
+
+            Only return one OUTPUT and not the LABEL or the CATEGORY. It's extremely important that the generated OUTPUT aligns with the assigned LABEL.
             """
-            # Examples:
-            # LABEL: FALSE, CATEGORY: health and medicine
-            # OUTPUT: "Vaccines contain microchips to track people."
-
-            # LABEL: TRUE, CATEGORY: health and medicine
-            # OUTPUT: "Vaccines help the body develop immunity
-            # without causing the disease."
-
-            # LABEL: FALSE, CATEGORY: politics and government
-            # OUTPUT: "Voting by mail always leads to widespread voter fraud."
-
-            # LABEL: TRUE, CATEGORY: politics and government
-            # OUTPUT: "Mail-in voting is a safe and secure method used
-            # by millions in the U.S."
-
-            # LABEL: FALSE, CATEGORY: climate change and environmental issue
-            # OUTPUT: "Climate change is a hoax created to control the economy"
-
-            # LABEL: TRUE, CATEGORY: climate change and environmental issues
-            # OUTPUT: ""Scientific consensus confirms that human activity is driving climate change."
 
             # Get results from Llama
             messages = [
