@@ -183,27 +183,20 @@ def sdg(
             3. Reflect on whether the statement should be factual, partially true, mostly true, or false.
             4. Generate an OUTPUT that aligns with the assigned LABEL and category.
 
-            Feel free to diversify the OUTPUT based on factors like age demographics, seasonality, or contextually relevant elements when applicable.
-
             ### Chain-of-Thought Examples:
 
-            - LABEL: false, CATEGORY: health and medicine
             - Reasoning: People often spread conspiracy theories about vaccines.
             - OUTPUT: "Vaccines contain microchips to track people."
 
-            - LABEL: true, CATEGORY: health and medicine
             - Reasoning: Scientific studies confirm the effectiveness of vaccines.
             - OUTPUT: "Vaccines help the body develop immunity without causing the disease."
 
-            - LABEL: partially true, CATEGORY: politics and government
             - Reasoning: Some concerns about mail-in voting have been raised, but most are unfounded.
             - OUTPUT: "While mail-in voting can have occasional issues, it's generally safe and secure for the vast majority of voters."
 
-            - LABEL: false, CATEGORY: climate change and environmental issues
             - Reasoning: Climate change denial is common among certain groups.
             - OUTPUT: "Climate change is a hoax created to control the economy."
 
-            - LABEL: mostly true, CATEGORY: climate change and environmental issues
             - Reasoning: While scientific consensus supports human-driven climate change, some debates exist about the timeline of impacts.
             - OUTPUT: "The majority of climate scientists agree that human activity is causing global warming, but there are still discussions about the exact rate of change."
 
@@ -219,7 +212,7 @@ def sdg(
                 {"role": "user", "content": prompt},
             ]
             generator = pipeline("text-generation", model=model, device=device)
-            result = generator(messages, max_new_tokens=200)[0]["generated_text"][-1][
+            result = generator(messages, max_new_tokens=128)[0]["generated_text"][-1][
                 "content"
             ]
 
