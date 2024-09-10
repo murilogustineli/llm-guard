@@ -170,7 +170,6 @@ def sdg(
             prompt = f"""I am generating synthetic OUTPUT to fine-tune
             my BERT model for detecting misinformation. The goal is to classify
             text based on its accuracy and prevent the spread of false information.
-
             Your task is to generate one OUTPUT for the classification:
 
             LABEL: {batch_random_labels[i - start]}
@@ -180,7 +179,7 @@ def sdg(
             To ensure the generated OUTPUT matches the LABEL, follow this step-by-step reasoning:
             1. Consider the CATEGORY and TYPE to understand the topic.
             2. Think about common statements or beliefs that align with the LABEL.
-            3. Reflect on whether the statement should be factual, partially true, mostly true, or false.
+            3. Reflect on whether the statement should be false, partially true, mostly true, or true.
             4. Generate an OUTPUT that aligns with the assigned LABEL and category.
 
             ### Chain-of-Thought Examples:
@@ -200,7 +199,8 @@ def sdg(
             - Reasoning: While scientific consensus supports human-driven climate change, some debates exist about the timeline of impacts.
             - OUTPUT: "The majority of climate scientists agree that human activity is causing global warming, but there are still discussions about the exact rate of change."
 
-            Only return one OUTPUT and not the LABEL or the CATEGORY. It's extremely important that the generated OUTPUT aligns with the assigned LABEL.
+            Only return one OUTPUT and not the LABEL or the CATEGORY.
+            It's extremely important that the generated OUTPUT aligns with the assigned LABEL.
             """
 
             # Get results from Llama
