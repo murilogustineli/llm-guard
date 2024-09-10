@@ -176,6 +176,14 @@ def sdg(
             CATEGORY: {batch_random_categories[i - start]}
             TYPE: {diversify(batch_random_categories[i - start])}
 
+            Label definitions:
+            - False: Completely untrue or fabricated information.
+            - Partially True: Contains some truth but is misleading or lacks important context.
+            - Mostly True: Largely accurate but may have minor inaccuracies or omissions.
+            - True: Entirely accurate and factual information.
+
+            Follow these steps to generate an accurate OUTPUT:
+
             To ensure the generated OUTPUT matches the LABEL, follow this step-by-step reasoning:
             1. Consider the CATEGORY and TYPE to understand the topic.
             2. Think about common statements or beliefs that align with the LABEL.
