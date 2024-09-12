@@ -225,7 +225,7 @@ def sdg(
             ]
 
             # Uncomment to see the raw outputs
-            # print(result)
+            print(result)
 
             result = extract_quoted_text(result)
             batch_data.append(
