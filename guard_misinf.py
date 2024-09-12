@@ -207,7 +207,7 @@ def sdg(
             - Reasoning: While scientific consensus supports human-driven climate change, some debates exist about the timeline of impacts.
             - OUTPUT: "The majority of climate scientists agree that human activity is causing global warming, but there are still discussions about the exact rate of change."
 
-            Only return one OUTPUT and not the LABEL or the CATEGORY.
+            Only return the OUTPUT and do not return the LABEL or the CATEGORY.
             It's extremely important that the generated OUTPUT aligns with the assigned LABEL.
             """
 
