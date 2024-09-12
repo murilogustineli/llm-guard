@@ -208,7 +208,7 @@ def sdg(
             - OUTPUT: "The majority of climate scientists agree that human activity is causing global warming, but there are still discussions about the exact rate of change."
 
             It's extremely important that the generated OUTPUT aligns with the assigned LABEL.
-            Only return the OUTPUT and do not return the LABEL, the CATEGORY, or the reasoning for the output.
+            Only return the OUTPUT. Do not return the LABEL, the CATEGORY, or the reasoning for the output.
             """
 
             # Get results from Llama
