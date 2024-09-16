@@ -117,6 +117,17 @@ def diversify(category):
     return np.random.choice(category_type[category])
 
 
+def extract_output_and_reasoning(result: str) -> tuple:
+    # Use re.DOTALL to make '.' match newline characters
+    match = re.search(r"OUTPUT:\s*(.*?)\s*REASONING:\s*(.*)", result, re.DOTALL)
+    if match:
+        output_text = match.group(1).replace("\n", " ").strip()
+        reasoning_text = match.group(2).replace("\n", " ").strip()
+        return output_text, reasoning_text
+    else:
+        return None, None
+
+
 def sdg(
     sample_size,
     labels,
@@ -230,16 +241,21 @@ def sdg(
                 {"role": "user", "content": prompt},
             ]
             generator = pipeline("text-generation", model=model, device=device)
-            result = generator(messages, max_new_tokens=128)[0]["generated_text"][-1][
+            result = generator(messages, max_new_tokens=250)[0]["generated_text"][-1][
                 "content"
             ]
 
             # Uncomment to see the raw outputs
-            print(result)
+            output, reasoning = extract_output_and_reasoning(result)
+            print(f"OUTPUT: {output}")
+            print(f"REASONING: {reasoning}")
 
             result = extract_quoted_text(result)
+            print(result)
             batch_data.append(
                 {
+                    "output": output,
+                    "reasoning": reasoning,
                     "text": result,
                     "label": batch_random_labels[i - start],
                     "model": model,
