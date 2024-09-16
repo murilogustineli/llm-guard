@@ -35,27 +35,27 @@ category_type = {
         "COVID-19 (virus origins, treatments, lockdowns)",
         "vaccines (efficacy, safety, side effects)",
         "alternative medicine vs. scientific treatments",
-        "diet fads and misleading health benefits",
-        "misleading drug claims and fake cures",
+        "diet fads and health benefits",
+        "drug claims and cures",
     ],
     "politics and government": [
-        "election integrity (fraud claims, vote manipulation)",
-        "misinformation about politicians or political events",
+        "election integrity",
+        "politicians or political events",
         "conspiracy theories around governmental institutions",
-        "propaganda or distorted political narratives",
-        "false claims about political policies or actions",
+        "political narratives",
+        "claims about political policies or actions",
     ],
     "climate change and environmental issues": [
-        "denial or misleading facts about climate change",
-        "false claims about renewable energy",
-        "myths around environmental disasters (e.g., wildfires, floods)",
-        "misinformation about conservation efforts or endangered species",
+        "facts about climate change",
+        "renewable energy",
+        "environmental disasters (e.g., wildfires, floods)",
+        "conservation efforts or endangered species",
     ],
     "science and technology": [
         "flat Earth theories or other pseudoscientific claims",
-        "misleading information about space exploration (e.g., moon landing hoaxes)",
-        "AI fears and misconceptions (e.g., AI taking over the world)",
-        "5G technology myths (health risks, surveillance)",
+        "space exploration",
+        "AI fears",
+        "5G technology",
     ],
     "conspiracy theories": [
         "QAnon or other large-scale conspiracy movements",
@@ -64,21 +64,21 @@ category_type = {
         "secret societies controlling world governments",
     ],
     "economics and financial markets": [
-        "false claims about market crashes or investment schemes",
-        "pyramid schemes and misleading financial advice",
-        "misleading information about cryptocurrencies or blockchain",
-        "unsubstantiated claims about economic collapse or manipulation",
+        "market crashes or investment schemes",
+        "pyramid schemes and financial advice",
+        "cryptocurrencies or blockchain",
+        "economic collapse or manipulation",
     ],
     "social and cultural issues": [
-        "misinformation surrounding racial, ethnic, or religious groups",
-        "gender identity or LGBTQ+ related misinformation",
-        "extreme bias or selective reporting in media",
-        "misinformation about significant historical events",
+        "racial, ethnic, or religious groups",
+        "gender identity or LGBTQ+",
+        "bias or selective reporting in media",
+        "historical events",
     ],
     "technology and AI": [
-        "myths about AI or machine learning capabilities (AI will replace all jobs)",
+        "AI or machine learning capabilities",
         "deepfake videos and synthetic content spread",
-        "misleading information on tech privacy breaches or hacking",
+        "tech privacy breaches or hacking",
     ],
 }
 
@@ -170,17 +170,12 @@ def sdg(
             prompt = f"""I am generating synthetic OUTPUT to fine-tune
             my BERT model for detecting misinformation. The goal is to classify
             text based on its accuracy and prevent the spread of false information.
-            Your task is to generate one OUTPUT for the classification:
-
-            LABEL: {batch_random_labels[i - start]}
-            CATEGORY: {batch_random_categories[i - start]}
-            TYPE: {diversify(batch_random_categories[i - start])}
 
             Label definitions:
-            - False: Completely untrue or fabricated information.
-            - Partially True: Contains some truth but is misleading or lacks important context.
-            - Mostly True: Largely accurate but may have minor inaccuracies or omissions.
-            - True: Entirely accurate and factual information.
+            - false: Completely untrue or fabricated information.
+            - partially true: Contains some truth but is misleading or lacks important context.
+            - mostly true: Largely accurate but may have minor inaccuracies or omissions.
+            - true: Entirely accurate and factual information.
 
             Follow these steps to generate an accurate OUTPUT:
 
@@ -190,25 +185,40 @@ def sdg(
             3. Reflect on whether the statement should be false, partially true, mostly true, or true.
             4. Generate an OUTPUT that aligns with the assigned LABEL and category.
 
-            ### Chain-of-Thought Examples:
+            Examples:
 
-            - Reasoning: People often spread conspiracy theories about vaccines.
-            - OUTPUT: "Vaccines contain microchips to track people."
+            LABEL: false
+            CATEGORY: health and medicine
+            TYPE: vaccines (efficacy, safety, side effects)
+            OUTPUT: Vaccines contain microchips to track people.
+            REASONING: This statement is false, because vaccines are developed to prevent diseases by triggering an immune response, not to track individuals. The ingredients in vaccines are publicly disclosed by manufacturers and are subject to rigorous testing and regulation by health authorities like FDA and WHO.
 
-            - Reasoning: Scientific studies confirm the effectiveness of vaccines.
-            - OUTPUT: "Vaccines help the body develop immunity without causing the disease."
+            LABEL: mostly true
+            CATEGORY: climate change and environmental issues
+            TYPE: conservation efforts or endangered species
+            OUTPUT: Polar bear populations are declining due to melting Arctic ice.
+            REASONING: This statement is mostly true because many polar bear populations are under threat as their sea ice habitat diminishes due to climate change. However, it may not be universally true for all polar bear populations, as some subpopulations have remained stable or even increased. The statement is largely accurate but may lack nuance regarding regional differences.
 
-            - Reasoning: Some concerns about mail-in voting have been raised, but most are unfounded.
-            - OUTPUT: "While mail-in voting can have occasional issues, it's generally safe and secure for the vast majority of voters."
+            LABEL: partially true
+            CATEGORY: health and medicine
+            TYPE: diet fads and health benefits
+            OUTPUT: Eating carrots significantly improves your night vision.
+            REASONING: This contains some truth because carrots are rich in beta-carotene, which is good for overall eye health, but the idea that they significantly improve night vision is misleading. The myth originated from British propaganda during World War II to explain their pilots' improved night-time operations.
 
-            - Reasoning: Climate change denial is common among certain groups.
-            - OUTPUT: "Climate change is a hoax created to control the economy."
+            LABEL: true
+            CATEGORY: health and medicine
+            TYPE: COVID-19 (virus origins, treatments, lockdowns)
+            OUTPUT: Wearing masks can help reduce the transmission of respiratory viruses.
+            REASONING: This is true and factual information. Numerous studies have shown that masks are effective in reducing the spread of viruses, including the novel coronavirus.
+            ######################################
+            Your task is to generate one OUTPUT for the classification below. It's extremely important that the generated OUTPUT aligns with the assigned LABEL.
+            Only return the OUTPUT and REASONING. Do not return the LABEL, CATEGORY, or TYPE.
 
-            - Reasoning: While scientific consensus supports human-driven climate change, some debates exist about the timeline of impacts.
-            - OUTPUT: "The majority of climate scientists agree that human activity is causing global warming, but there are still discussions about the exact rate of change."
-
-            It's extremely important that the generated OUTPUT aligns with the assigned LABEL.
-            Only return the OUTPUT. Do not return the LABEL, the CATEGORY, or the reasoning for the output.
+            LABEL: {batch_random_labels[i - start]}
+            CATEGORY: {batch_random_categories[i - start]}
+            TYPE: {diversify(batch_random_categories[i - start])}
+            OUTPUT:
+            REASONING:
             """
 
             # Get results from Llama
@@ -225,7 +235,7 @@ def sdg(
             ]
 
             # Uncomment to see the raw outputs
-            print(f"OUTPUT: {result}\n")
+            print(result)
 
             result = extract_quoted_text(result)
             batch_data.append(
@@ -254,13 +264,13 @@ def parse_args():
     parser.add_argument(
         "--sample-size",
         type=int,
-        default=25,
+        default=10,
         help="Number of samples generated by the LLM.",
     )
     parser.add_argument(
         "--batch-size",
         type=int,
-        default=25,
+        default=2,
         help="Size of the batch.",
     )
     parser.add_argument(
@@ -291,3 +301,9 @@ if __name__ == "__main__":
         output_dir="./",
         model=args.model,
     )
+
+# Notes:
+# Suggestion: Have the parsing function separate the OUTPUT and REASONING. Record both in the file in separate columns.
+# I have changed some of the "values" in the category_type dictionary so that they don't suggest a "false" statement for a true label.
+# You might want to check all "values" to make sure they look okay.
+# The prompt is also rearranged.
