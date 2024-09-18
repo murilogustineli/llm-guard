@@ -250,13 +250,10 @@ def sdg(
             print(f"OUTPUT: {output}")
             print(f"REASONING: {reasoning}")
 
-            result = extract_quoted_text(result)
-            print(result)
             batch_data.append(
                 {
                     "output": output,
                     "reasoning": reasoning,
-                    "text": result,
                     "label": batch_random_labels[i - start],
                     "model": model,
                 }
