@@ -128,19 +128,6 @@ def extract_output_and_reasoning(result: str) -> tuple:
         return None, None
 
 
-def remove_double_quotes(text):
-    """
-    Removes all double quotes from the input text.
-
-    Parameters:
-        text (str): The input string from which to remove double quotes.
-
-    Returns:
-        str: The text with double quotes removed.
-    """
-    return text.replace('"', "")
-
-
 def sdg(
     sample_size,
     labels,
@@ -260,8 +247,8 @@ def sdg(
 
             # Uncomment to see the raw outputs
             output, reasoning = extract_output_and_reasoning(result)
-            output = remove_double_quotes(output)
-            reasoning = remove_double_quotes(reasoning)
+            output = extract_quoted_text(output)
+            reasoning = extract_quoted_text(reasoning)
             print(f"OUTPUT: {output}")
             print(f"REASONING: {reasoning}")
 
@@ -330,7 +317,7 @@ if __name__ == "__main__":
         model=args.model,
     )
 
-# Notes:
+# Ehssan's Notes:
 # Suggestion: Have the parsing function separate the OUTPUT and REASONING. Record both in the file in separate columns.
 # I have changed some of the "values" in the category_type dictionary so that they don't suggest a "false" statement for a true label.
 # You might want to check all "values" to make sure they look okay.
