@@ -248,8 +248,6 @@ def sdg(
 
             # Uncomment to see the raw outputs
             output, reasoning = extract_output_and_reasoning(result)
-            output = extract_quoted_text(output)
-            reasoning = extract_quoted_text(reasoning)
             if verbose:
                 print(f"OUTPUT: {output}")
                 print(f"REASONING: {reasoning}")
