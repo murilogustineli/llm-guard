@@ -155,9 +155,10 @@ def sdg(
     # tokenizer = AutoTokenizer.from_pretrained(model)
     print(f"Running on {device}.")
 
-    # Generate filename with current date and time
+    # Generate filename with current date, time, and model name
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    output_path = os.path.join(output_dir, f"{timestamp}.csv")
+    model_name = model.split("/")[0]
+    output_path = os.path.join(output_dir, f"{timestamp}_{model_name}.csv")
 
     # If sample_size is not divisible by batch_size, an extra batch is added
     num_batches = (sample_size + batch_size - 1) // batch_size
