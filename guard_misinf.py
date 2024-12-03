@@ -324,8 +324,6 @@ if __name__ == "__main__":
         verbose=args.verbose,
     )
 
-# Ehssan's Notes:
-# Suggestion: Have the parsing function separate the OUTPUT and REASONING. Record both in the file in separate columns.
-# I have changed some of the "values" in the category_type dictionary so that they don't suggest a "false" statement for a true label.
-# You might want to check all "values" to make sure they look okay.
-# The prompt is also rearranged.
+# MODELS
+# meta-llama/Meta-Llama-3.1-8B-Instruct
+# mistralai/Mixtral-8x7B-Instruct-v0.1
