@@ -184,6 +184,7 @@ def sdg(
     categories: str,
     prompt: str,
     batch_size: int = 20,
+    max_new_tokens: int = 250,
     use_hpu: bool = True,
     output_dir: str = "./data",
     model: str = "meta-llama/Meta-Llama-3.1-8B-Instruct",
@@ -209,6 +210,14 @@ def sdg(
     # Generate filename with current date, time, and model name
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     model_name = model.split("/")[0]
+
+    # Get the directory of the current script
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    output_dir = os.path.join(script_dir, "data")
+
+    # Ensure the output directory exists
+    os.makedirs(output_dir, exist_ok=True)
+
     output_path = os.path.join(output_dir, f"{timestamp}_{model_name}.csv")
 
     # If sample_size is not divisible by batch_size, an extra batch is added
@@ -251,9 +260,9 @@ def sdg(
                 {"role": "user", "content": prompt_input},
             ]
             generator = pipeline("text-generation", model=model, device=device)
-            result = generator(messages, max_new_tokens=250)[0]["generated_text"][-1][
-                "content"
-            ]
+            result = generator(messages, max_new_tokens=max_new_tokens)[0][
+                "generated_text"
+            ][-1]["content"]
 
             # Uncomment to see the raw outputs
             output, reasoning = extract_output_and_reasoning(result)
@@ -298,6 +307,12 @@ def parse_args():
         help="Size of the batch.",
     )
     parser.add_argument(
+        "--max-new-tokens",
+        type=int,
+        default=250,
+        help="Max number of tokens generated in the output.",
+    )
+    parser.add_argument(
         "--use-hpu",
         type=bool,
         default=False,
@@ -328,6 +343,7 @@ if __name__ == "__main__":
         categories=list(category_type.keys()),
         prompt=prompt,
         batch_size=args.batch_size,
+        max_new_tokens=args.max_new_tokens,
         use_hpu=args.use_hpu,
         output_dir="./",
         model=args.model,
