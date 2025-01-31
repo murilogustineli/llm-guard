@@ -209,7 +209,7 @@ def sdg(
 
     # Generate filename with current date, time, and model name
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    model_name = model.split("/")[0]
+    model_name = model.split("/")[-1]
 
     # Get the directory of the current script
     script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -353,3 +353,6 @@ if __name__ == "__main__":
 # MODELS
 # meta-llama/Meta-Llama-3.1-8B-Instruct
 # mistralai/Mixtral-8x7B-Instruct-v0.1
+# deepseek-ai/DeepSeek-R1-Distill-Llama-8B
+# deepseek-ai/DeepSeek-R1-Distill-Qwen-14B
+# deepseek-ai/DeepSeek-R1-Distill-Qwen-7B
