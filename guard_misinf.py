@@ -8,7 +8,7 @@ import pandas as pd
 
 # Hugging Face
 from huggingface_hub import login
-from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
+from transformers import pipeline
 
 # Gaudi
 # from habana_frameworks.torch.hpu import wrap_in_hpu_graph
