@@ -16,9 +16,6 @@ from transformers import pipeline
 # from habana_frameworks.torch.hpu import wrap_in_hpu_graph
 # import habana_frameworks.torch.core as htcore
 
-# load Hugging Face token to access models
-load_hf_token()
-
 
 def extract_quoted_text(text: str) -> str:
     """
@@ -92,7 +89,7 @@ def sdg(
 
     device = "hpu" if use_hpu else "cpu"
     # tokenizer = AutoTokenizer.from_pretrained(model)
-    print(f"Running on {device}.")
+    print(f"Running on {device}")
 
     # Generate filename with current date, time, and model name
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -105,6 +102,8 @@ def sdg(
         prompt = PROMPT_V2
     else:
         raise ValueError("Prompt must be either 'v1' or v2'.")
+    print(f"Using prompt version: {prompt_version}")
+    print(f"Prompt: {prompt}")
 
     # ensure the output directory exists
     os.makedirs(output_dir, exist_ok=True)
@@ -241,6 +240,10 @@ def get_output_dir():
 
 
 if __name__ == "__main__":
+    # load Hugging Face token to access models
+    load_hf_token()
+
+    # parse command-line arguments
     args = parse_args()
 
     # generate synthetic data
