@@ -46,13 +46,14 @@ PROMPT_V1 = """
     TYPE: COVID-19 (virus origins, treatments, lockdowns)
     OUTPUT: Wearing masks can help reduce the transmission of respiratory viruses.
     REASONING: This is true and factual information. Numerous studies have shown that masks are effective in reducing the spread of viruses, including the novel coronavirus.
+
     ######################################
     Your task is to generate one OUTPUT for the classification below. It's extremely important that the generated OUTPUT aligns with the assigned LABEL.
     Only return the OUTPUT and REASONING. Do not return the LABEL, CATEGORY, or TYPE.
     """
 
 PROMPT_V2 = """
-    I am generating synthetic OUTPUT to fine-tune my BERT model for detecting misinformation. 
+    I am generating synthetic OUTPUT to fine-tune my BERT model for detecting misinformation.
     The goal is to classify text based on its accuracy and prevent the spread of false information.
 
     Label definitions:
@@ -61,8 +62,7 @@ PROMPT_V2 = """
     - mostly true: Largely accurate but may have minor inaccuracies or omissions.
     - true: Entirely accurate and factual information.
 
-    ### Step-by-Step Process:
-
+    Step-by-Step Process:
     1. First, generate a factual and verifiable statement (TRUE OUTPUT) based on the CATEGORY and TYPE.
     2. Then, modify the TRUE OUTPUT according to the assigned LABEL:
     - false: Completely alter the statement to be misleading or fabricated.
@@ -71,33 +71,32 @@ PROMPT_V2 = """
     - true: Keep the statement unchanged.
     3. Provide a REASONING to justify why the modified OUTPUT aligns with the assigned LABEL.
 
-    ### Examples:
-
-    CATEGORY: health and medicine  
-    TYPE: vaccines (efficacy, safety, side effects)  
-    TRUE OUTPUT: Vaccines protect against diseases by stimulating an immune response and have been proven safe through rigorous testing.  
+    Examples:
+    CATEGORY: health and medicine
+    TYPE: vaccines (efficacy, safety, side effects)
+    TRUE OUTPUT: Vaccines protect against diseases by stimulating an immune response and have been proven safe through rigorous testing.
 
     Modified Outputs:
 
     - LABEL: false
-    OUTPUT: Vaccines are designed to alter human DNA permanently.  
+    OUTPUT: Vaccines are designed to alter human DNA permanently.
     REASONING: This is false because vaccines work by training the immune system to recognize pathogens, not by altering DNA. No approved vaccines modify human genetic material.
 
     - LABEL: partially true
-    OUTPUT: Vaccines can sometimes cause serious long-term health effects.  
+    OUTPUT: Vaccines can sometimes cause serious long-term health effects.
     REASONING: This contains some truth because vaccines can have rare side effects, but they are extensively tested for safety. The statement is misleading as it overstates the risks.
 
     - LABEL: mostly true
-    OUTPUT: Vaccines protect against most diseases, but they guarantee 100% immunity.  
+    OUTPUT: Vaccines protect against most diseases, but they guarantee 100% immunity.
     REASONING: This is mostly true because vaccines significantly reduce the risk of infection, but they do not provide absolute immunity in all cases.
 
     - LABEL: true
-    OUTPUT: Vaccines protect against diseases by stimulating an immune response and have been proven safe through rigorous testing.  
+    OUTPUT: Vaccines protect against diseases by stimulating an immune response and have been proven safe through rigorous testing.
     REASONING: This is entirely accurate, as vaccines undergo extensive trials and regulatory approvals before being distributed.
 
     ######################################
-    Your task is to generate one OUTPUT for the classification below.  
-    First, create a TRUE OUTPUT based on the CATEGORY and TYPE.  
-    Then modify the OUTPUT according to the LABEL.  
+    Your task is to generate one OUTPUT for the classification below.
+    First, create a TRUE OUTPUT based on the CATEGORY and TYPE.
+    Then modify the OUTPUT according to the LABEL.
     Only return the OUTPUT and REASONING. Do not return the TRUE OUTPUT, LABEL, CATEGORY, or TYPE.
 """
