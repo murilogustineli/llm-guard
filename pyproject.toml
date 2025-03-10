@@ -1,14 +1,18 @@
 [project]
-name = "llm-guard"
-version = "0.0.1"
-authors = [{ name = "Murilo Gustineli", email = "murilogustineli@gmail.com" }]
-description = "Wordle helper package"
+name = "misinformation-guard"
+version = "0.1.1"
+authors = [{ name = "Murilo Gustineli", email = "murilo.gustineli@intel.com" }]
+description = "MisInformation Guard helper package"
 readme = "README.md"
 requires-python = ">=3.8"
+dynamic = ["dependencies"]
 
 [project.urls]
-Homepage = "https://github.com/murilogustineli/llm-guard"
-Issues = "https://github.com/murilogustineli/llm-guard/issues"
+Homepage = "https://github.com/murilogustineli/misinformation-guard"
+Issues = "https://github.com/murilogustineli/misinformation-guard/issues"
+
+[project.scripts]
+gpt = "gpt.cli:app"
 
 [build-system]
 requires = ["setuptools>=61.0"]
@@ -19,5 +23,5 @@ dependencies = { file = "requirements.txt" }
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["llm-guard"]
+include = ["misinformation-guard*"]
 namespaces = false
