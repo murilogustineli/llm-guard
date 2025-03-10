@@ -8,7 +8,7 @@ import pandas as pd
 
 # Hugging Face
 from huggingface_hub import login
-from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
+from transformers import pipeline
 
 # Gaudi
 # from habana_frameworks.torch.hpu import wrap_in_hpu_graph
@@ -83,7 +83,7 @@ category_type = {
 }
 
 
-prompt = """
+prompt_v1 = """
     I am generating synthetic OUTPUT to fine-tune
     my BERT model for detecting misinformation. The goal is to classify
     text based on its accuracy and prevent the spread of false information.
@@ -132,8 +132,59 @@ prompt = """
     Only return the OUTPUT and REASONING. Do not return the LABEL, CATEGORY, or TYPE.
     """
 
+prompt_v2 = """
+I am generating synthetic OUTPUT to fine-tune my BERT model for detecting misinformation. 
+The goal is to classify text based on its accuracy and prevent the spread of false information.
 
-def extract_quoted_text(text):
+Label definitions:
+- false: Completely untrue or fabricated information.
+- partially true: Contains some truth but is misleading or lacks important context.
+- mostly true: Largely accurate but may have minor inaccuracies or omissions.
+- true: Entirely accurate and factual information.
+
+### Step-by-Step Process:
+
+1. First, generate a factual and verifiable statement (TRUE OUTPUT) based on the CATEGORY and TYPE.
+2. Then, modify the TRUE OUTPUT according to the assigned LABEL:
+    - **false:** Completely alter the statement to be misleading or fabricated.
+    - **partially true:** Add misleading information or remove key context to make the statement somewhat deceptive.
+    - **mostly true:** Slightly alter the statement to introduce minor inaccuracies while keeping most of it correct.
+    - **true:** Keep the statement unchanged.
+3. Provide a REASONING to justify why the modified OUTPUT aligns with the assigned LABEL.
+
+### Examples:
+
+CATEGORY: health and medicine  
+TYPE: vaccines (efficacy, safety, side effects)  
+TRUE OUTPUT: Vaccines protect against diseases by stimulating an immune response and have been proven safe through rigorous testing.  
+
+**Modified Outputs:**
+
+- **LABEL: false**  
+  OUTPUT: Vaccines are designed to alter human DNA permanently.  
+  REASONING: This is false because vaccines work by training the immune system to recognize pathogens, not by altering DNA. No approved vaccines modify human genetic material.
+
+- **LABEL: partially true**  
+  OUTPUT: Vaccines can sometimes cause serious long-term health effects.  
+  REASONING: This contains some truth because vaccines can have rare side effects, but they are extensively tested for safety. The statement is misleading as it overstates the risks.
+
+- **LABEL: mostly true**  
+  OUTPUT: Vaccines protect against most diseases, but they guarantee 100% immunity.  
+  REASONING: This is mostly true because vaccines significantly reduce the risk of infection, but they do not provide absolute immunity in all cases.
+
+- **LABEL: true**  
+  OUTPUT: Vaccines protect against diseases by stimulating an immune response and have been proven safe through rigorous testing.  
+  REASONING: This is entirely accurate, as vaccines undergo extensive trials and regulatory approvals before being distributed.
+
+######################################
+Your task is to generate one OUTPUT for the classification below.  
+First, create a TRUE OUTPUT based on the CATEGORY and TYPE.  
+Then modify the OUTPUT according to the LABEL.  
+Only return the OUTPUT and REASONING. Do not return the TRUE OUTPUT, LABEL, CATEGORY, or TYPE.
+"""
+
+
+def extract_quoted_text(text: str) -> str:
     """
     Extracts the longest quoted text from the LLM's output.
 
@@ -154,7 +205,7 @@ def extract_quoted_text(text):
         return text
 
 
-def diversify(category):
+def diversify(category: str):
     """
     Randomly selects a value from the list associated with a given key in the category_type dictionary.
 
@@ -209,7 +260,7 @@ def sdg(
 
     # Generate filename with current date, time, and model name
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    model_name = model.split("/")[0]
+    model_name = model.split("/")[-1]
 
     # Get the directory of the current script
     script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -345,7 +396,7 @@ if __name__ == "__main__":
         batch_size=args.batch_size,
         max_new_tokens=args.max_new_tokens,
         use_hpu=args.use_hpu,
-        output_dir="./",
+        output_dir="./data",
         model=args.model,
         verbose=args.verbose,
     )
@@ -353,3 +404,6 @@ if __name__ == "__main__":
 # MODELS
 # meta-llama/Meta-Llama-3.1-8B-Instruct
 # mistralai/Mixtral-8x7B-Instruct-v0.1
+# deepseek-ai/DeepSeek-R1-Distill-Llama-8B
+# deepseek-ai/DeepSeek-R1-Distill-Qwen-14B
+# deepseek-ai/DeepSeek-R1-Distill-Qwen-7B
