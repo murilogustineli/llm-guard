@@ -133,54 +133,54 @@ prompt_v1 = """
     """
 
 prompt_v2 = """
-I am generating synthetic OUTPUT to fine-tune my BERT model for detecting misinformation. 
-The goal is to classify text based on its accuracy and prevent the spread of false information.
+    I am generating synthetic OUTPUT to fine-tune my BERT model for detecting misinformation. 
+    The goal is to classify text based on its accuracy and prevent the spread of false information.
 
-Label definitions:
-- false: Completely untrue or fabricated information.
-- partially true: Contains some truth but is misleading or lacks important context.
-- mostly true: Largely accurate but may have minor inaccuracies or omissions.
-- true: Entirely accurate and factual information.
+    Label definitions:
+    - false: Completely untrue or fabricated information.
+    - partially true: Contains some truth but is misleading or lacks important context.
+    - mostly true: Largely accurate but may have minor inaccuracies or omissions.
+    - true: Entirely accurate and factual information.
 
-### Step-by-Step Process:
+    ### Step-by-Step Process:
 
-1. First, generate a factual and verifiable statement (TRUE OUTPUT) based on the CATEGORY and TYPE.
-2. Then, modify the TRUE OUTPUT according to the assigned LABEL:
-    - **false:** Completely alter the statement to be misleading or fabricated.
-    - **partially true:** Add misleading information or remove key context to make the statement somewhat deceptive.
-    - **mostly true:** Slightly alter the statement to introduce minor inaccuracies while keeping most of it correct.
-    - **true:** Keep the statement unchanged.
-3. Provide a REASONING to justify why the modified OUTPUT aligns with the assigned LABEL.
+    1. First, generate a factual and verifiable statement (TRUE OUTPUT) based on the CATEGORY and TYPE.
+    2. Then, modify the TRUE OUTPUT according to the assigned LABEL:
+    - false: Completely alter the statement to be misleading or fabricated.
+    - partially true: Add misleading information or remove key context to make the statement somewhat deceptive.
+    - mostly true: Slightly alter the statement to introduce minor inaccuracies while keeping most of it correct.
+    - true: Keep the statement unchanged.
+    3. Provide a REASONING to justify why the modified OUTPUT aligns with the assigned LABEL.
 
-### Examples:
+    ### Examples:
 
-CATEGORY: health and medicine  
-TYPE: vaccines (efficacy, safety, side effects)  
-TRUE OUTPUT: Vaccines protect against diseases by stimulating an immune response and have been proven safe through rigorous testing.  
+    CATEGORY: health and medicine  
+    TYPE: vaccines (efficacy, safety, side effects)  
+    TRUE OUTPUT: Vaccines protect against diseases by stimulating an immune response and have been proven safe through rigorous testing.  
 
-**Modified Outputs:**
+    Modified Outputs:
 
-- **LABEL: false**  
-  OUTPUT: Vaccines are designed to alter human DNA permanently.  
-  REASONING: This is false because vaccines work by training the immune system to recognize pathogens, not by altering DNA. No approved vaccines modify human genetic material.
+    - LABEL: false
+    OUTPUT: Vaccines are designed to alter human DNA permanently.  
+    REASONING: This is false because vaccines work by training the immune system to recognize pathogens, not by altering DNA. No approved vaccines modify human genetic material.
 
-- **LABEL: partially true**  
-  OUTPUT: Vaccines can sometimes cause serious long-term health effects.  
-  REASONING: This contains some truth because vaccines can have rare side effects, but they are extensively tested for safety. The statement is misleading as it overstates the risks.
+    - LABEL: partially true
+    OUTPUT: Vaccines can sometimes cause serious long-term health effects.  
+    REASONING: This contains some truth because vaccines can have rare side effects, but they are extensively tested for safety. The statement is misleading as it overstates the risks.
 
-- **LABEL: mostly true**  
-  OUTPUT: Vaccines protect against most diseases, but they guarantee 100% immunity.  
-  REASONING: This is mostly true because vaccines significantly reduce the risk of infection, but they do not provide absolute immunity in all cases.
+    - LABEL: mostly true
+    OUTPUT: Vaccines protect against most diseases, but they guarantee 100% immunity.  
+    REASONING: This is mostly true because vaccines significantly reduce the risk of infection, but they do not provide absolute immunity in all cases.
 
-- **LABEL: true**  
-  OUTPUT: Vaccines protect against diseases by stimulating an immune response and have been proven safe through rigorous testing.  
-  REASONING: This is entirely accurate, as vaccines undergo extensive trials and regulatory approvals before being distributed.
+    - LABEL: true
+    OUTPUT: Vaccines protect against diseases by stimulating an immune response and have been proven safe through rigorous testing.  
+    REASONING: This is entirely accurate, as vaccines undergo extensive trials and regulatory approvals before being distributed.
 
-######################################
-Your task is to generate one OUTPUT for the classification below.  
-First, create a TRUE OUTPUT based on the CATEGORY and TYPE.  
-Then modify the OUTPUT according to the LABEL.  
-Only return the OUTPUT and REASONING. Do not return the TRUE OUTPUT, LABEL, CATEGORY, or TYPE.
+    ######################################
+    Your task is to generate one OUTPUT for the classification below.  
+    First, create a TRUE OUTPUT based on the CATEGORY and TYPE.  
+    Then modify the OUTPUT according to the LABEL.  
+    Only return the OUTPUT and REASONING. Do not return the TRUE OUTPUT, LABEL, CATEGORY, or TYPE.
 """
 
 
@@ -346,6 +346,12 @@ def sdg(
 def parse_args():
     parser = ArgumentParser()
     parser.add_argument(
+        "--prompt",
+        type=str,
+        default="v1",
+        help="Prompt to be used to generate synthetic data (v1 or v2).",
+    )
+    parser.add_argument(
         "--sample-size",
         type=int,
         default=10,
@@ -387,12 +393,20 @@ def parse_args():
 if __name__ == "__main__":
     args = parse_args()
 
+    # set prompt for synthetic data generation
+    if args.prompt == "v1":
+        prompt = prompt_v1
+    elif args.prompt == "v2":
+        prompt = prompt_v2
+    else:
+        raise ValueError("Prompt must be either 'v1' or v2'.")
+
     # generate synthetic data
     sdg(
         sample_size=args.sample_size,
         labels=labels,
         categories=list(category_type.keys()),
-        prompt=prompt,
+        prompt=args.prompt,
         batch_size=args.batch_size,
         max_new_tokens=args.max_new_tokens,
         use_hpu=args.use_hpu,
