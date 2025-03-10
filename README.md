@@ -9,15 +9,16 @@ Install `uv` or your package manager of choice. We'll be using `uv`, [an extreme
 Check the `uv` [installation guide for macOS, Linux, and Windows](https://docs.astral.sh/uv/getting-started/installation/)
 
 Create a virtual environment:
+
 ```
 uv venv venv
 ```
 
 Activate the virtual environment:
+
 ```
 source venv/bin/activate
 ```
-
 
 Install the pre-commit hooks for formatting code:
 
@@ -34,5 +35,5 @@ uv pip install -r requirements.txt
 Install the package in "editable" mode, which means changes to the Python files will be immediately available without needing to reinstall the package.
 
 ```
-pip install -e .
+uv pip install -e .
 ```
