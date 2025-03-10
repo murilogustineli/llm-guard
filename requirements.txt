@@ -11,3 +11,4 @@ openpyxl
 jupyterlab
 black
 pre-commit
+python-dotenv
