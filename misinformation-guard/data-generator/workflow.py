@@ -263,6 +263,3 @@ if __name__ == "__main__":
 # MODELS TO CHOOSE FROM:
 # meta-llama/Meta-Llama-3.1-8B-Instruct
 # mistralai/Mixtral-8x7B-Instruct-v0.1
-# deepseek-ai/DeepSeek-R1-Distill-Llama-8B
-# deepseek-ai/DeepSeek-R1-Distill-Qwen-14B
-# deepseek-ai/DeepSeek-R1-Distill-Qwen-7B
