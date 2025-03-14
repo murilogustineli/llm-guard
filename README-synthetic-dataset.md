@@ -16,7 +16,6 @@ license: TBD (apache-2.0 ? GPL)
 ## Dataset Description
 This dataset was generated to train and evaluate models on the task of text classification according to misinformation. Synthetic data generation was carried out by a custom designed pipeline using the following LLMs:
 - [Llama 3.1 8B](https://huggingface.co/meta-llama/Meta-Llama-3.1-8B-Instruct)
-- [Gemma 2 9B](https://huggingface.co/google/gemma-2-9b-it)
 - [Mixtral 8x7B](https://huggingface.co/mistralai/Mixtral-8x7B-Instruct-v0.1)
 
 ### Structure
