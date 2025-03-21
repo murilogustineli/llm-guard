@@ -15,4 +15,4 @@ openpyxl==3.1.5
 jupyterlab==4.2.7
 black==25.1.0
 pre-commit==4.1.0
-python-dotenv
+python-dotenv==1.0.1
