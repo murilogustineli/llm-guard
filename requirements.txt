@@ -1,14 +1,18 @@
 numpy==2.1.1
-pandas==2.2.2
+pandas==2.2.3
 matplotlib==3.9.2
-transformers==4.44.2
-huggingface_hub==0.24.6
+lightning==2.5.0.post0
+torch==2.6.0
+torchmetrics==1.6.1
+transformers==4.49.0
+wandb==0.19.7
+huggingface_hub==0.29.1
 notebook==7.2.2
-ipykernel
-openpyxl
+ipykernel==6.29.5
+openpyxl==3.1.5
 
 # developer tools
-jupyterlab
-black
-pre-commit
-python-dotenv
+jupyterlab==4.2.7
+black==25.1.0
+pre-commit==4.1.0
+python-dotenv==1.0.1
