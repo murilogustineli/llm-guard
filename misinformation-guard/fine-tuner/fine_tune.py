@@ -492,13 +492,13 @@ def parse_args() -> argparse.Namespace:
 
     # Data parameters
     parser.add_argument(
-        "--train_data", type=str, required=True, help="Path to the training CSV file"
+        "--train-data", type=str, required=True, help="Path to the training CSV file"
     )
     parser.add_argument(
-        "--val_data", type=str, required=True, help="Path to the validation CSV file"
+        "--val-data", type=str, required=True, help="Path to the validation CSV file"
     )
     parser.add_argument(
-        "--test_data", type=str, required=True, help="Path to the test CSV file"
+        "--test-data", type=str, required=True, help="Path to the test CSV file"
     )
 
     # Training parameters
